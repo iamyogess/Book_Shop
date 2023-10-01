@@ -45,6 +45,21 @@ app.post("/books", (req, res) => {
   });
 });
 
+app.delete("/books/:id", (req, res) => {
+  const bookID = req.params.id;
+  const sqlQuery = "DELETE FROM book WHERE id = ?";
+  db.query(sqlQuery, [bookID], (error, data) => {
+    if (error) {
+      console.error("Error deleting book:", error);
+      return res
+        .status(500)
+        .json({ message: "Internal Server Error", error: error.message });
+    }
+    return res.status(200).json({ message: "Book Deleted Successfully!" });
+  });
+});
+
+
 app.listen(PORT, () => {
   console.log("Server started at http://localhost:8080/");
 });

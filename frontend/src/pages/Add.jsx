@@ -17,10 +17,9 @@ const Add = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/books", book);
-    navigate("/");
-
     try {
+      await axios.post("http://localhost:8080/books", book);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -38,11 +37,12 @@ const Add = () => {
       <input
         type="text"
         placeholder="Description"
-        name="desc onChange={handleChange}"
+        name="desc"
+        onChange={handleChange}
       />
       <input
-        type="text"
-        placeholder="Cover Picture"
+        type="file"
+        placeholder="CoverPicture"
         name="cover"
         onChange={handleChange}
       />
