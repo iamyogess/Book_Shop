@@ -47,7 +47,7 @@ app.post("/books", (req, res) => {
 
 app.delete("/books/:id", (req, res) => {
   const bookID = req.params.id;
-  const sqlQuery = "DELETE FROM book WHERE id = ?";
+  const sqlQuery = "DELETE FROM books WHERE id = ?";
   db.query(sqlQuery, [bookID], (error, data) => {
     if (error) {
       console.error("Error deleting book:", error);
@@ -59,6 +59,39 @@ app.delete("/books/:id", (req, res) => {
   });
 });
 
+// app.put("/books/:id", (req, res) => {
+//   const values = [
+//     req.body.title,
+//     req.body.desc,
+//     req.body.cover,
+//     req.body.price,
+//   ];
+//   const bookID = req.params.id;
+//   const sqlQuery =
+//   "UPDATE book SET `title`= ?, `desc`= ?, `price`= ?, `cover`= ? WHERE id = ?";
+//   db.query(sqlQuery, [...values, bookID], (error, data) => {
+//     if (error)
+//       return res.status(500).json({ message: "Internal Server Error" });
+//     return res.status(200).json({ message: "Book Updated Succesfully", data });
+//   });
+// });
+
+app.put("/books/:id", (req, res) => {
+  const bookId = req.params.id;
+  const q = "UPDATE books SET `title`= ?, `desc`= ?, `price`= ?, `cover`= ? WHERE id = ?";
+
+  const values = [
+    req.body.title,
+    req.body.desc,
+    req.body.price,
+    req.body.cover,
+  ];
+
+  db.query(q, [...values,bookId], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
 
 app.listen(PORT, () => {
   console.log("Server started at http://localhost:8080/");
